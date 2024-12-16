@@ -1,0 +1,71 @@
+Player player1("P1");
+player1.Turn(<SelectTile(tile)>, <player1.Rule(tile)>);
+
+player1.Rule(Tile t)
+{
+	
+	if(t.pieces.count==0)
+	{
+	Piece p1(player1, t.posX, t.posY);
+	p1.color=Color("Blue");
+	RESULT=true;	
+	}
+}
+
+Player player2("P2");
+player2.Turn(<SelectTile(tile)>, <player2.Rule(tile)>);
+
+player2.Rule(Tile t)
+{
+	
+	if(t.pieces.count==0)
+	{
+	Piece p1(player2, t.posX, t.posY);
+	p1.color=Color("Red");
+	RESULT=true;	
+	}
+}
+
+player1.WinCondition()
+{
+	if((0,0).pieces[0].player==player1 AND (1,0).pieces[0].player==player1 AND (2,0).pieces[0].player==player1)
+	{RESULT=true;}
+	if((0,1).pieces[0].player==player1 AND (1,1).pieces[0].player==player1 AND (2,1).pieces[0].player==player1)
+	{RESULT=true;}	
+	if((0,2).pieces[0].player==player1 AND (1,2).pieces[0].player==player1 AND (2,2).pieces[0].player==player1)
+	{RESULT=true;}
+
+	if((0,0).pieces[0].player==player1 AND (0,1).pieces[0].player==player1 AND (0,2).pieces[0].player==player1)
+	{RESULT=true;}
+	if((1,0).pieces[0].player==player1 AND (1,1).pieces[0].player==player1 AND (1,2).pieces[0].player==player1)
+	{RESULT=true;}
+	if((2,0).pieces[0].player==player1 AND (2,1).pieces[0].player==player1 AND (3,2).pieces[0].player==player1)
+	{RESULT=true;}
+
+	if((0,0).pieces[0].player==player1 AND (1,1).pieces[0].player==player1 AND (2,2).pieces[0].player==player1)
+	{RESULT=true;}
+	if((2,0).pieces[0].player==player1 AND (1,1).pieces[0].player==player1 AND (0,2).pieces[0].player==player1)
+	{RESULT=true;}	
+}
+
+player2.WinCondition()
+{
+	if((0,0).pieces[0].player==player2 AND (1,0).pieces[0].player==player2 AND (2,0).pieces[0].player==player2)
+	{RESULT=true;}
+	if((0,1).pieces[0].player==player2 AND (1,1).pieces[0].player==player2 AND (2,1).pieces[0].player==player2)
+	{RESULT=true;}	
+	if((0,2).pieces[0].player==player2 AND (1,2).pieces[0].player==player2 AND (2,2).pieces[0].player==player2)
+	{RESULT=true;}
+
+	if((0,0).pieces[0].player==player2 AND (0,1).pieces[0].player==player2 AND (0,2).pieces[0].player==player2)
+	{RESULT=true;}
+	if((1,0).pieces[0].player==player2 AND (1,1).pieces[0].player==player2 AND (1,2).pieces[0].player==player2)
+	{RESULT=true;}
+	if((2,0).pieces[0].player==player2 AND (2,1).pieces[0].player==player2 AND (3,2).pieces[0].player==player2)
+	{RESULT=true;}
+
+	if((0,0).pieces[0].player==player2 AND (1,1).pieces[0].player==player2 AND (2,2).pieces[0].player==player2)
+	{RESULT=true;}
+	if((2,0).pieces[0].player==player2 AND (1,1).pieces[0].player==player2 AND (0,2).pieces[0].player==player2)
+	{RESULT=true;}
+}

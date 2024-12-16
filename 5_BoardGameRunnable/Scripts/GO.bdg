@@ -1,0 +1,559 @@
+Player player2("Black Player");
+Player player1("White Player");
+player1.Turn(<SelectTile(tile)>, <player1.Rule(tile)>, <RemovePiece1()>, <CheckSuicide1()>);
+player2.Turn(<SelectTile(tile)>, <player2.Rule(tile)>, <RemovePiece2()>, <CheckSuicide2()>);
+
+List group1;
+List group2;
+
+points1=5.5;
+Label0.text="Player1 points: " + points1;
+points2=0;
+Label1.text="Player2 points: " + points2;
+
+lastRemoved1x = -1;
+lastRemoved1y = -1;
+lastRemoved2x = -1;
+lastRemoved2y = -1;
+
+List territoyGroup;
+
+NumberOfPasses=0;
+
+Piece Removable;
+
+
+player1.Rule(Tile t)
+{
+	if((t.pieces.count==0) AND (t.posX != lastRemoved1x OR t.posY != lastRemoved1y))
+	{
+		lastRemoved1x = -1;
+		lastRemoved1y = -1;
+		Piece p1(player1, t.posX, t.posY);
+		p1.color=Color("White");
+		RESULT=true;
+		if(group1.count==0)
+		{
+			List tempGroup;
+			tempGroup.Add(p1);
+			group1.Add(tempGroup);
+		}
+		else
+		{
+			Found=-1;
+			i = 0;
+			repeat
+			{
+				if(group1[i].Find((t.posX+1,t.posY).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group1[i].Add(p1);
+						Found=i;
+					}
+					else
+					{
+						group1[Found].Move(group1[i].all)
+					}
+				}
+				else if(group1[i].Find((t.posX-1,t.posY).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group1[i].Add(p1);
+						Found=i;
+					}
+					else
+					{
+						group1[Found].Move(group1[i].all)
+					}
+				}
+				else if(group1[i].Find((t.posX,t.posY+1).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group1[i].Add(p1);
+						Found=i;
+					}
+					else
+					{
+						group1[Found].Move(group1[i].all)
+					}
+				}
+				else if(group1[i].Find((t.posX,t.posY-1).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group1[i].Add(p1);
+						Found=i;
+					}
+					else
+					{
+						group1[Found].Move(group1[i].all)
+					}
+				}
+
+				i=i+1;
+			}
+			until(i<group1.count)
+
+			if(Found==-1)
+			{
+				List tempGroup;
+				tempGroup.Add(p1);
+				group1.Add(tempGroup);
+			}
+		}
+		NumberOfPasses=0;
+	}
+}
+
+player2.Rule(Tile t)
+{
+	if((t.pieces.count==0) AND (t.posX != lastRemoved2x OR t.posY != lastRemoved2y))
+	{
+		lastRemoved2x = -1;
+		lastRemoved2y = -1;
+		Piece p2(player2, t.posX, t.posY);
+		p2.color=Color("Black");
+		RESULT=true;
+		if(group2.count==0)
+		{
+			List tempGroup;
+			tempGroup.Add(p2);
+			group2.Add(tempGroup);
+		}
+		else
+		{
+			Found=-1;
+			i = 0;
+			repeat
+			{
+				if(group2[i].Find((t.posX+1,t.posY).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group2[i].Add(p2);
+						Found=i;
+					}
+					else
+					{
+						group2[Found].Move(group2[i].all)
+					}
+				}
+				else if(group2[i].Find((t.posX-1,t.posY).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group2[i].Add(p2);
+						Found=i;
+					}
+					else
+					{
+						group2[Found].Move(group2[i].all)
+					}
+				}
+				else if(group2[i].Find((t.posX,t.posY+1).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group2[i].Add(p2);
+						Found=i;
+					}
+					else
+					{
+						group2[Found].Move(group2[i].all)
+					}
+				}
+				else if(group2[i].Find((t.posX,t.posY-1).pieces[0])==true)
+				{
+					if(Found==-1)
+					{
+						group2[i].Add(p2);
+						Found=i;
+					}
+					else
+					{
+						group2[Found].Move(group2[i].all)
+					}
+				}
+
+				i=i+1;
+			}
+			until(i<group2.count)
+
+			if(Found==-1)
+			{
+				List tempGroup;
+				tempGroup.Add(p2);
+				group2.Add(tempGroup);
+			}
+		}
+		NumberOfPasses=0;
+	}
+}
+
+FUNC.RemovePiece1()
+{
+	i = 0;
+	if(group2.count>0)
+	{
+		repeat
+		{
+			Rem=true;
+			j = 0;
+			if(group2[i].count>0)
+			{
+				repeat
+				{
+					if((group2[i][j].posX+1, group2[i][j].posY).empty 
+						OR (group2[i][j].posX-1, group2[i][j].posY).empty 
+						OR (group2[i][j].posX, group2[i][j].posY+1).empty
+						OR (group2[i][j].posX, group2[i][j].posY-1).empty)
+					{
+						Rem=false;
+						stop;
+					}
+					j=j+1;
+				}
+				until(j<group2[i].count)
+
+				if(Rem==true)
+				{
+					points1=points1+group2[i].count;
+					Label0.text="Player1 points: " + points1;
+					if(group1[i].count == 1)
+					{
+						lastRemoved2x=group2[i][0].posX;
+						lastRemoved2y=group2[i][0].posY;
+					}
+					Remove(group2[i]);
+				}
+			}
+			i=i+1;
+		}
+		until(i<group2.count)
+	}
+	RESULT=true;	
+}
+
+FUNC.RemovePiece2()
+{
+	i = 0;
+	if(group1.count>0)
+	{
+		repeat
+		{
+			Rem=true;
+			j = 0;
+			if(group1[i].count>0)
+			{
+				repeat
+				{
+					if((group1[i][j].posX+1, group1[i][j].posY).empty 
+						OR (group1[i][j].posX-1, group1[i][j].posY).empty
+						OR (group1[i][j].posX, group1[i][j].posY+1).empty 
+						OR (group1[i][j].posX, group1[i][j].posY-1).empty)
+					{
+						Rem=false;
+						stop;
+					}
+					j=j+1;
+				}
+				until(j<group1[i].count)
+
+				if(Rem==true)
+				{ 
+					points2=points2+group1[i].count;
+					Label1.text="Player2 points: " + points2;
+					if(group1[i].count == 1)
+					{
+						lastRemoved1x=group1[i][0].posX;
+						lastRemoved1y=group1[i][0].posY;
+					}
+					Remove(group1[i]);
+				}
+			}
+			i=i+1;
+		}
+		until(i<group1.count)
+	}
+	RESULT=true;	
+}
+
+FUNC.CheckSuicide1()
+{
+	RESULT=true;
+	i = 0;
+	if(group1.count>0)
+	{
+		repeat
+		{	
+			Rem=true;
+			j = 0;
+			if(group1[i].count>0)
+			{
+				repeat
+				{
+					if((group1[i][j].posX+1, group1[i][j].posY).empty 
+						OR (group1[i][j].posX-1, group1[i][j].posY).empty
+						OR (group1[i][j].posX, group1[i][j].posY+1).empty 
+						OR (group1[i][j].posX, group1[i][j].posY-1).empty)
+					{
+						Rem=false;
+						stop;
+					}
+					j=j+1;
+				}
+				until(j<group1[i].count)
+
+				if(Rem==true)
+				{
+					RESULT=false;
+				}
+			}
+			i=i+1;
+		}
+		until(i<group1.count)
+	}
+}
+
+FUNC.CheckSuicide2()
+{
+	RESULT=true;
+	i = 0;
+	if(group2.count>0)
+	{
+		repeat
+		{	
+			Rem=true;
+			j = 0;
+			if(group2[i].count>0)
+			{
+				repeat
+				{
+					if((group2[i][j].posX+1, group2[i][j].posY).empty 
+						OR (group2[i][j].posX-1, group2[i][j].posY).empty 
+						OR (group2[i][j].posX, group2[i][j].posY+1).empty
+						OR (group2[i][j].posX, group2[i][j].posY-1).empty)
+					{
+						Rem=false;
+						stop;
+					}
+					j=j+1;
+				}
+				until(j<group2[i].count)
+
+				if(Rem==true)
+				{
+					RESULT=false;
+				}
+			}
+			i=i+1;
+		}
+		until(i<group2.count)
+	}
+}
+
+player1.WinCondition()
+{
+	RESULT=false;
+	if(NumberOfPasses==4 AND points1 >= points2)
+	{
+		RESULT=true;
+	}
+}
+
+player2.WinCondition()
+{
+	RESULT=false;
+	if(NumberOfPasses==4 AND points2 >= points1)
+	{
+		RESULT=true;
+	}
+}
+
+
+FUNC.Pass()
+{
+	NumberOfPasses = NumberOfPasses+1;
+	if(NumberOfPasses==2)
+	{
+		ButtonContest.active = true;
+		player1.Turn(<RemoveDeadPiece(INPUT.Click(player2.pieces.any))>);
+		player2.Turn(<RemoveDeadPiece(INPUT.Click(player1.pieces.any))>);
+	}
+	else if(NumberOfPasses==4)
+	{
+		CreateTerritoryGroups();
+		CountTerritory();
+		player1.Turn();
+		player2.Turn();
+	}
+
+	Remove(Removable);
+
+	CurrentPlayer.EndTurn();
+}
+
+FUNC.RemoveDeadPiece(Piece p)
+{
+	Remove(Removable);
+	p.color = Color("Red");
+	Removable = p;
+	RESULT=true;
+	NumberOfPasses=2;
+}
+
+FUNC.Contest()
+{
+	Removable = NULL;
+	NumberOfPasses=0;
+	player1.Turn(<SelectTile(tile)>, <player1.Rule(tile)>, <RemovePiece1()>, <CheckSuicide1()>);
+	player2.Turn(<SelectTile(tile)>, <player2.Rule(tile)>, <RemovePiece2()>, <CheckSuicide2()>);
+	player1.pieces.all.color = Color("White");
+	player2.pieces.all.color = Color("Black");
+	CurrentPlayer.EndTurn();
+	RESULT=true;
+}
+
+FUNC.CreateTerritoryGroups()
+{
+	y = 0;
+	repeat
+	{	
+		x = 0;
+		repeat
+		{
+			if((x,y).pieces.count==0)
+			{
+				if(territoyGroup.count==0)
+				{
+					List tempGroup;
+					tempGroup.Add((x,y));
+					territoyGroup.Add(tempGroup);
+				}
+				else
+				{
+					Found=-1;
+					i = 0;
+					repeat
+					{
+						if(territoyGroup[i].Find((x+1,y))==true)
+						{
+							if(Found==-1)
+							{
+								territoyGroup[i].Add((x,y));
+								Found=i;
+							}
+							else
+							{
+								territoyGroup[Found].Move(territoyGroup[i].all)
+							}
+						}
+						else if(territoyGroup[i].Find((x-1,y))==true)
+						{
+							if(Found==-1)
+							{
+								territoyGroup[i].Add((x,y));
+								Found=i;
+							}
+							else
+							{
+								territoyGroup[Found].Move(territoyGroup[i].all)
+							}
+						}
+						else if(territoyGroup[i].Find((x,y+1))==true)
+						{
+							if(Found==-1)
+							{
+								territoyGroup[i].Add((x,y));
+								Found=i;
+							}
+							else
+							{
+								territoyGroup[Found].Move(territoyGroup[i].all)
+							}
+						}
+						else if(territoyGroup[i].Find((x,y-1))==true)
+						{
+							if(Found==-1)
+							{
+								territoyGroup[i].Add((x,y));
+								Found=i;
+							}
+							else
+							{
+								territoyGroup[Found].Move(territoyGroup[i].all)
+							}
+						}
+
+						i=i+1;
+					}
+					until(i<territoyGroup.count)
+
+					if(Found==-1)
+					{
+						List tempGroup;
+						tempGroup.Add((x,y));
+						territoyGroup.Add(tempGroup);
+					}
+				}
+			}
+			x=x+1;
+		}
+		until(x<19)
+		y=y+1;
+	}
+	until(y<19)
+}
+
+FUNC.CountTerritory()
+{
+	i = 0;
+	if(territoyGroup.count>0)
+	{
+		repeat
+		{	
+			WhiteFound=false;
+			BlackFound=false;
+			j = 0;
+			if(territoyGroup[i].count>0)
+			{
+				repeat
+				{					
+					if((territoyGroup[i][j].posX+1, territoyGroup[i][j].posY).pieces[0].player==player1
+						OR (territoyGroup[i][j].posX-1, territoyGroup[i][j].posY).pieces[0].player==player1
+						OR (territoyGroup[i][j].posX, territoyGroup[i][j].posY+1).pieces[0].player==player1
+						OR (territoyGroup[i][j].posX, territoyGroup[i][j].posY-1).pieces[0].player==player1)
+					{
+						WhiteFound=true;
+					}
+					if((territoyGroup[i][j].posX+1, territoyGroup[i][j].posY).pieces[0].player==player2
+						OR (territoyGroup[i][j].posX-1, territoyGroup[i][j].posY).pieces[0].player==player2 
+						OR (territoyGroup[i][j].posX, territoyGroup[i][j].posY+1).pieces[0].player==player2 
+						OR (territoyGroup[i][j].posX, territoyGroup[i][j].posY-1).pieces[0].player==player2)
+					{
+						BlackFound=true;
+					}
+					j=j+1;
+				}
+				until(j<territoyGroup[i].count)
+
+				if(WhiteFound==true AND BlackFound==false)
+				{ 
+					points1=points1+territoyGroup[i].count; 
+					Label0.text="Player1 points: " + points1; 
+				}
+				else if(WhiteFound==false AND BlackFound==true)
+				{
+					points2=points2+territoyGroup[i].count;
+					Label1.text="Player2 points: " + points2;
+				}
+			}
+			i=i+1;
+		}
+		until(i<territoyGroup.count)
+	}
+	RESULT=true;
+}

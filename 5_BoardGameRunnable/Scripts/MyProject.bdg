@@ -1,0 +1,199 @@
+
+List list = [1, 2, 6, 8, 15];
+list[2] = 3;
+list.all = 1;
+
+
+X = 1;
+Y = "text";
+Z = true;
+
+
+
+X = true;
+X = 15;
+
+
+List list1 = [2, 3, 4, 8];
+List list2 = [15, 16];
+
+if(list1.Find(2))
+{
+    list2.Add(99);
+    list1.Move(list2.all);
+}
+
+
+if((X/3 > 2 AND Y <= 15) OR Z == 11)
+{
+    Z = (X+Y)*3;
+    Z = (Z-2)%2;
+}
+
+
+repeat
+{
+    if(X > Y)
+    {
+        stop;
+    }
+    else
+    {
+        X = X + 3;
+    }
+}
+until(X < 99)
+
+
+// Egy soros komment
+/*
+    Több
+    soros
+    komment
+*/
+
+
+# "Log message";
+# "Message: " + X + ", " + Y;
+
+
+Player player1("Player1");
+
+player1.name = "player_1";
+
+Piece piece1(player1, 1, 2);
+Piece piece2(player1, 5, 5);
+
+player1.pieces.all.color = Color("Blue");
+piece1.texture = texture;
+piece2.route = [(0,0), (2,3), (1,5)];
+Player player2("Player2");
+
+player1.pieces.all.color = Color("#C0C000");
+
+player2.pieces.all.color = Color("Green");
+
+
+Piece(Rook) rook11(player1, 0, 0);
+Piece(Rook) rook12(player1, 7, 0);
+Piece(Rook) rook21(player2, 0, 7);
+Piece(Rook) rook22(player2, 7, 7);
+
+Rook.Rule(Tile t)
+{
+    // All Rook type has the same Rule
+
+    MoveTo(route.count - 1, Step);
+    MoveTo(15, Slide);
+    MovetTo(routePosition + 5, Jump)
+    
+}
+
+(3,5).pieces[0].color = Color("Red");
+
+
+Dice dice(1, 2, 3, 4, 5, 6);
+dice.Roll();
+
+if(dice.value == 6)
+{
+    //...
+}
+
+inputField = 0;
+label = 0;
+button = 0;
+
+if(inputField.text == "input" AND label.fontSize == 10)
+{
+    button.active = true;
+    button.onClick = "CutsomFunc()";
+    label.textColor = Color("Red");
+}
+
+
+player1.pieces.all.Rule(Tile t)
+{
+    if(t.posX < posX AND t.posY < posY)
+    {
+        RESULT = true;
+    }
+}
+
+
+FUNC.getSecondPiece(Tile t)
+{
+    RESULT = t.pieces[1];
+}
+
+
+player1.Turn(<HandleInput(INPUT.Click(player2.pieces.any))>);
+
+FUNC.HandleInput(Piece p)
+{
+    Remove(p);
+}
+
+
+Phase 1
+{
+    player1.Rule(Tile t)
+    {
+        // ...
+        Phase 2;
+    }
+}
+
+Phase 2
+{
+    player1.pieces.all.Rule(Tile t)
+    {
+        // ...
+        Phase 1;
+    }
+}
+
+
+FUNC.CustomFunc(Piece p)
+{
+    if(p.posX == 1)
+    {
+        cancel;
+    }
+    else
+    {
+        player1.EndTurn();
+    }
+}
+
+player1.Turn(
+    <dice.Roll()>,
+    <CheckValidMove()>,
+    <SelectPiece(piece)>,
+    <SelectTile(tile)>,
+    <piece.Rule(tile)>
+);
+
+if(list1.all == list2.any)
+{
+
+}
+
+
+player1.pieces.all.route[15].posX = 2;
+
+
+player1.WinCondition()
+{
+    if(pieces[0].posX == 2)
+    {
+        RESULT = true;
+    }
+}
+
+List list = [1,2];
+
+if(list.any == 5 OR list.none < 15)
+{
+    
+}

@@ -1,0 +1,44 @@
+Player player1("Player1");
+Player player2("Player2");
+
+Piece Hound1(player1,0,1);
+Piece Hound2(player1,1,0);
+Piece Hound3(player1, 1, 2);
+player1.pieces.all.color= Color("Blue");
+
+Piece Hare(player2,4,1);
+Hare.color = Color("Red");
+
+player1.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>);
+
+player2.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>);
+
+player1.pieces.all.Rule(Tile t)
+{
+	if((posX+1 == t.posX OR posX == t.posX) AND (posY+1 == t.posY OR posY-1 == t.posY OR posY==t.posY))
+	{
+		if(t.pieces.count == 0)
+		{ RESULT=true; }
+	}
+}
+
+
+Hare.Rule(Tile t)
+{
+	if((Hare.posX+1 == t.posX OR Hare.posX == t.posX OR Hare.posX-1 == t.posX) AND (Hare.posY+1 == t.posY OR Hare.posY-1 == t.posY OR Hare.posY==t.posY))
+	{
+		if(t.pieces.count == 0)
+		{ RESULT=true; }
+	}
+}
+
+player1.WinCondition()
+{
+	RESULT=false;
+}
+
+player2.WinCondition()
+{
+	if(Hare.posX==0 AND Hare.posY==1)
+	{ RESULT=true; }
+}

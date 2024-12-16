@@ -1,0 +1,497 @@
+Player player1("White");
+
+player1.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>, <CheckCheck()>);
+
+Piece(King) king1(player1, 4, 0);
+king1.texture = WKing;
+
+Piece(Rook) rook11(player1, 0, 0);
+rook11.texture = WRook;
+
+Piece(Rook) rook12(player1, 7, 0);
+rook12.texture = WRook;
+
+Piece(Knight) knight11(player1, 1, 0);
+knight11.texture = WKnight;
+Piece(Knight) knight12(player1, 6, 0);
+knight12.texture = WKnight;
+
+Piece(Bishop) bishop11(player1, 2, 0);
+bishop11.texture = WBishop;
+Piece(Bishop) bishop12(player1, 5, 0);
+bishop12.texture = WBishop;
+
+Piece(Queen) queen1(player1, 3, 0);
+queen1.texture = WQueen;
+
+Piece(Pawn1) pawn11(player1, 0, 1);
+pawn11.texture = WPawn;
+Piece(Pawn1) pawn12(player1, 1, 1);
+pawn12.texture = WPawn;
+Piece(Pawn1) pawn13(player1, 2, 1);
+pawn13.texture = WPawn;
+Piece(Pawn1) pawn14(player1, 3, 1);
+pawn14.texture = WPawn;
+Piece(Pawn1) pawn15(player1, 4, 1);
+pawn15.texture = WPawn;
+Piece(Pawn1) pawn16(player1, 5, 1);
+pawn16.texture = WPawn;
+Piece(Pawn1) pawn17(player1, 6, 1);
+pawn17.texture = WPawn;
+Piece(Pawn1) pawn18(player1, 7, 1);
+pawn18.texture = WPawn;
+
+player1.pieces.all.color=Color("White");
+
+Player player2("Black");
+player2.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>, <CheckCheck()>);
+
+Piece(King) king2(player2, 4, 7);
+king2.texture= BKing;
+
+Piece(Rook) rook21(player2, 0, 7);
+rook21.texture = BRook;
+Piece(Rook) rook22(player2, 7, 7);
+rook22.texture = BRook;
+
+Piece(Knight) knight21(player2, 1, 7);
+knight21.texture = BKnight;
+Piece(Knight) knight22(player2, 6, 7);
+knight22.texture = BKnight;
+
+Piece(Bishop) bishop21(player2, 2, 7);
+bishop21.texture = BBishop;
+Piece(Bishop) bishop22(player2, 5, 7);
+bishop22.texture = BBishop;
+
+Piece(Queen) queen2(player2, 3, 7);
+queen2.texture = BQueen;
+
+Piece(Pawn2) pawn21(player2, 0, 6);
+pawn21.texture = BPawn;
+Piece(Pawn2) pawn22(player2, 1, 6);
+pawn22.texture = BPawn;
+Piece(Pawn2) pawn23(player2, 2, 6);
+pawn23.texture = BPawn;
+Piece(Pawn2) pawn24(player2, 3, 6);
+pawn24.texture = BPawn;
+Piece(Pawn2) pawn25(player2, 4, 6);
+pawn25.texture = BPawn;
+Piece(Pawn2) pawn26(player2, 5, 6);
+pawn26.texture = BPawn;
+Piece(Pawn2) pawn27(player2, 6, 6);
+pawn27.texture = BPawn;
+Piece(Pawn2) pawn28(player2, 7, 6);
+pawn28.texture = BPawn;
+
+player2.pieces.all.color=Color("Black");
+
+check=false;
+
+Pawn1.Rule(Tile t)
+{
+	if (t.posY==posY+1)
+	{
+		if (t.empty AND t.posX==posX)
+		{
+			RESULT=true;
+		}
+		if (!t.empty AND t.pieces[0].player != player  AND (t.posX==posX+1 OR t.posX==posX-1))
+		{
+			if (t.pieces[0].type=="King")
+			{
+				check=true;
+				RESULT=false;
+			}
+			else
+			{
+				Remove(t.pieces[0]);
+				RESULT=true;
+			}
+		}
+	}
+	else if (posY==1 AND t.posY==posY+2)
+	{
+		if (t.empty AND t.posX==posX AND (t.posX, posY+1).empty)
+		{
+			RESULT=true;
+		}
+	}
+	if(RESULT == true)
+	{
+		# "White pawn moves";
+	}
+}
+Pawn2.Rule(Tile t)
+{
+	if(t.posY==posY-1)
+	{
+		if (t.empty AND t.posX==posX)
+		{
+			RESULT=true;
+		}
+		if (!t.empty AND t.pieces[0].player != player AND (t.posX==posX+1 OR t.posX==posX-1))
+		{
+			if (t.pieces[0].type=="King")
+			{
+				check=true;
+				RESULT=false;
+			}
+			else
+			{
+				Remove(t.pieces[0]);
+				RESULT=true;
+			}
+		}
+	}
+	else if (posY==6 AND t.posY==posY-2)
+	{
+		if (t.empty AND t.posX==posX AND (t.posX, posY-1).empty)
+		{
+			RESULT=true;
+		}
+	}
+	if(RESULT == true)
+	{
+		# "Black pawn moves";
+	}
+}
+
+Rook.Rule(Tile t)
+{
+	if (t.posX==posX)
+	{
+		RESULT=true;
+		iy=posY;
+		repeat
+		{
+			if (t.posY>posY)
+			{
+				iy=iy+1;
+			}
+			else
+			{
+				iy=iy-1;
+			}
+			if (!(posX,iy).empty AND iy!=t.posY)
+			{
+				RESULT=false;
+				stop;
+			}
+		}
+		until(iy!=t.posY)		
+	}
+	if (t.posY==posY)
+	{
+		RESULT=true;
+		ix=posX;
+		repeat
+		{
+			if (t.posX>posX)
+			{
+				ix=ix+1;
+			}
+			else
+			{
+				ix=ix-1;
+			}		
+			if (!(ix,posY).empty AND ix!=t.posX)
+			{
+				RESULT=false;
+				stop;
+			}
+		}
+		until(ix!=t.posX)
+	}	
+	if (t.pieces.count==1 AND RESULT==true)
+	{
+		if (t.pieces[0].player != player)
+		{
+			if (t.pieces[0].type=="King")
+			{
+				check=true;
+				RESULT=false;
+			}
+			else
+			{
+				Remove(t.pieces[0]);
+			}
+		}
+		else
+		{
+			RESULT=false;
+		}
+	}
+}
+
+Knight.Rule(Tile t)
+{
+	if ((t.posX==posX+2 AND (t.posY==posY+1 OR t.posY==posY-1)) 
+		OR (t.posX==posX-2 AND (t.posY==posY+1 OR t.posY==posY-1))
+		OR (t.posY==posY+2 AND (t.posX==posX+1 OR t.posX==posX-1)) 
+		OR (t.posY==posY-2 AND (t.posX==posX+1 OR t.posX==posX-1)))
+	{
+		RESULT=true;
+	}
+	if (t.pieces.count==1 AND RESULT==true)
+	{
+		if (t.pieces[0].player != player)
+		{
+			if (t.pieces[0].type=="King")
+			{
+				check=true;
+				RESULT=false;
+			}
+			else
+			{
+				Remove(t.pieces[0]);
+			}
+		}
+		else
+		{
+			RESULT=false;
+		}
+	}
+}
+
+Bishop.Rule(Tile t)
+{
+	if (|(t.posX-posX)| == |t.posY-posY|)
+	{
+		RESULT=true;
+		ix=posX;
+		iy=posY;
+		repeat
+		{
+			if (t.posX>posX)
+			{
+				ix=ix+1;
+			}
+			else
+			{
+				ix=ix-1;
+			}
+			if (t.posY>posY)
+			{
+				iy=iy+1;
+			}
+			else
+			{
+				iy=iy-1;
+			}	
+			if ((ix,iy).pieces.count!=0 AND ix!=t.posX AND iy!=t.posY)
+			{
+				RESULT=false;
+				stop;
+			}
+		}
+		until(ix!=t.posX AND iy!=t.posY)
+	}
+	if (t.pieces.count==1 AND RESULT==true)
+	{
+		if (t.pieces[0].player != player)
+		{
+			if (t.pieces[0].type=="King")
+			{
+				check=true;
+				RESULT=false;
+			}
+			else
+			{
+				Remove(t.pieces[0]);
+			}
+		}
+		else
+		{
+			RESULT=false;
+		}
+	}
+}
+
+Queen.Rule(Tile t)
+{
+	if (|(t.posX-posX)| == |t.posY-posY|)
+	{
+		RESULT=true;
+		ix=posX;
+		iy=posY;
+		repeat
+		{
+			if (t.posX>posX)
+			{
+				ix=ix+1;
+			}
+			else
+			{
+				ix=ix-1;
+			}
+			if (t.posY>posY)
+			{
+				iy=iy+1;
+			}
+			else
+			{
+				iy=iy-1;
+			}	
+			if ((ix,iy).pieces.count!=0 AND ix!=t.posX AND iy!=t.posY)
+			{
+				RESULT=false;
+				stop;
+			}
+		}
+		until(ix!=t.posX AND iy!=t.posY)
+	}
+	if (t.posX==posX)
+	{
+		RESULT=true;
+		iy=posY;
+		repeat
+		{
+			if (t.posY>posY)
+			{
+				iy=iy+1;
+			}
+			else
+			{
+				iy=iy-1;
+			}	
+			if ((posX,iy).pieces.count!=0 AND iy!=t.posY)
+			{
+				RESULT=false;
+				stop;
+			}
+		}
+		until(iy!=t.posY)		
+	}
+	if (t.posY==posY)
+	{
+		RESULT=true;
+		ix=posX;
+		repeat
+		{
+				
+			if (t.posX>posX)
+			{
+				ix=ix+1;
+			}
+			else
+			{
+				ix=ix-1;
+			}		
+			if ((ix,posY).pieces.count!=0 AND ix!=t.posX)
+			{
+				RESULT=false;
+				stop;
+			}
+		}
+		until(ix!=t.posX)
+	}
+	
+	if (t.pieces.count==1 AND RESULT==true)
+	{
+		if (t.pieces[0].player != player)
+		{
+			if (t.pieces[0].type=="King")
+			{
+				check=true;
+				RESULT=false;
+			}
+			else
+			{
+				Remove(t.pieces[0]);
+			}
+		}
+		else
+		{
+			RESULT=false;
+		}
+	}
+}
+
+King.Rule(Tile t)
+{
+	if (|t.posY-posY|<=1 AND |t.posX-posX|<=1)
+	{
+		RESULT=true;
+	}
+	if (t.pieces.count==1 AND RESULT==true)
+	{
+		if (t.pieces[0].player != player)
+		{
+			if (t.pieces[0].type=="King")
+			{
+				check=true;
+				RESULT=false;
+			}
+			else if (CurrentPlayer == player)
+			{
+				Remove(t.pieces[0]);
+			}
+		}
+		else
+		{RESULT=false;}
+	}
+}
+
+player1.WinCondition()
+{
+	RESULT=false;
+	player1.pieces.all.Rule((king2.posX,king2.posY));
+	if(check==true AND player2.TryTurn(<player2.pieces.all.Rule(tiles.all)>, <CheckCheck()>) == false)
+	{
+		RESULT = true;
+	}
+}
+
+player2.WinCondition()
+{
+	RESULT=false;
+	player2.pieces.all.Rule((king1.posX,king1.posY));
+	if(check==true AND player1.TryTurn(<player1.pieces.all.Rule(tiles.all)>, <CheckCheck()>) == false)
+	{
+		RESULT = true;
+	}
+}
+
+FUNC.DrawCondition()
+{
+	RESULT=false;
+	if(CurrentPlayer==player1)
+	{
+		if(check==false AND player2.TryTurn(<player2.pieces.all.Rule(tiles.all)>, <CheckCheck()>) == false)
+		{
+			RESULT = true;
+		}
+	}
+	if(CurrentPlayer==player2)
+	{
+		if(check==false AND player1.TryTurn(<player1.pieces.all.Rule(tiles.all)>, <CheckCheck()>) == false)
+		{
+			RESULT = true;
+		}
+	}
+}
+
+FUNC.CheckCheck()
+{
+	RESULT=true;
+	check=false;
+	if(CurrentPlayer==player1)
+	{
+		player2.pieces.all.Rule((king1.posX,king1.posY));
+		if(check==true)
+		{
+			RESULT=false;
+		}
+	}
+	if(CurrentPlayer==player2)
+	{
+		player1.pieces.all.Rule((king2.posX,king2.posY));
+		if(check==true)
+		{
+			RESULT=false;
+		}
+	}
+}
+
+

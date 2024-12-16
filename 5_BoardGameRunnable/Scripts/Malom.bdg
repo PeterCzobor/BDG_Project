@@ -1,0 +1,227 @@
+Player player1("Player1");
+Player player2("Player2");
+player1.Turn(<SelectTile(tile)>, <player1.Rule(tile)>);
+player2.Turn(<SelectTile(tile)>, <player2.Rule(tile)>);
+
+Section1 = 0;
+Section2 = 0;
+
+
+Phase 1
+{
+player1.Rule(Tile t)
+{
+	if(Section1 < 9)
+	{
+		if((t.pieces.count==0))
+		{
+			Piece p1(player1, t.posX, t.posY);
+			p1.color=Color("White");
+			RESULT=true;
+			Section1 = Section1+1;	
+		}
+	}
+	if(t.posX % 2 == 1 AND
+		(((t.posX+1, t.posY).pieces[0].player==player1 AND (t.posX+2, t.posY).pieces[0].player==player1)
+		OR ((t.posX-1, t.posY).pieces[0].player==player1 AND (t.posX-2, t.posY).pieces[0].player==player1)))
+	{
+		player1.Turn(<SelectTile(tile)>, <player1.Rule(tile)>, <RemovePiece(INPUT.Click(player2.pieces.any))>);
+	}
+
+	if(t.posX % 2 == 0 AND
+		(((t.posX, t.posY+1).pieces[0].player==player1 AND (t.posX, t.posY-1).pieces[0].player==player1)
+		OR ((t.posX, t.posY+1).pieces[0].player==player1 AND (t.posX, t.posY+2).pieces[0].player==player1)
+		OR ((t.posX, t.posY-1).pieces[0].player==player1 AND (t.posX, t.posY-2).pieces[0].player==player1) 
+		OR ((t.posX-1, t.posY).pieces[0].player==player1 AND (t.posX+1, t.posY).pieces[0].player==player1)))
+	{
+		player1.Turn(<SelectTile(tile)>, <player1.Rule(tile)>, <RemovePiece(INPUT.Click(player2.pieces.any))>);
+	}
+}
+
+player2.Rule(Tile t)
+{
+	if(Section2 < 9)
+	{
+		if((t.pieces.count==0))
+		{
+			Piece p2(player2, t.posX, t.posY);
+			p2.color=Color("Black");
+			RESULT=true;
+			Section2 = Section2+1;	
+		}
+	}
+	if(t.posX % 2 == 1 AND
+		(((t.posX+1, t.posY).pieces[0].player==player2 AND (t.posX+2, t.posY).pieces[0].player==player2)
+		OR ((t.posX-1, t.posY).pieces[0].player==player2 AND (t.posX-2, t.posY).pieces[0].player==player2)))
+	{
+		player2.Turn(<SelectTile(tile)>, <player2.Rule(tile)>, <RemovePiece(INPUT.Click(player1.pieces.any))>);
+	}
+
+	if(t.posX % 2 == 0 AND
+		(((t.posX, t.posY+1).pieces[0].player==player2 AND (t.posX, t.posY-1).pieces[0].player==player2)
+		OR ((t.posX, t.posY+1).pieces[0].player==player2 AND (t.posX, t.posY+2).pieces[0].player==player2)
+		OR ((t.posX, t.posY-1).pieces[0].player==player2 AND (t.posX, t.posY-2).pieces[0].player==player2)
+		OR ((t.posX-1, t.posY).pieces[0].player==player2 AND (t.posX+1, t.posY).pieces[0].player==player2)))
+	{
+		player2.Turn(<SelectTile(tile)>, <player2.Rule(tile)>, <RemovePiece(INPUT.Click(player1.pieces.any))>);
+	}
+}
+
+FUNC.RemovePiece(Piece p)
+{
+	if(p.posX % 2 == 1 AND
+		(((p.posX+1, p.posY).pieces[0].player==p.player AND (p.posX+2, p.posY).pieces[0].player==p.player)
+		OR ((p.posX-1, p.posY).pieces[0].player==p.player AND (p.posX-2, p.posY).pieces[0].player==p.player)))
+	{
+		cancel;
+	}
+	else if(p.posX % 2 == 0 AND
+		(((p.posX, p.posY+1).pieces[0].player==p.player AND (p.posX, p.posY-1).pieces[0].player==p.player)
+		OR ((p.posX, p.posY+1).pieces[0].player==p.player AND (p.posX, p.posY+2).pieces[0].player==p.player)
+		OR ((p.posX, p.posY-1).pieces[0].player==p.player AND (p.posX, p.posY-2).pieces[0].player==p.player)
+		OR ((p.posX-1, p.posY).pieces[0].player==p.player AND (p.posX+1, p.posY).pieces[0].player==p.player)))
+	{
+		cancel;
+	}
+	else
+	{
+		Remove(p);
+		player1.Turn(<SelectTile(tile)>, <player1.Rule(tile)>);
+		player2.Turn(<SelectTile(tile)>, <player2.Rule(tile)>);
+	}
+	RESULT=true;
+}
+
+
+player1.WinCondition()
+{
+	RESULT=false;
+}
+
+player2.WinCondition()
+{
+	if(Section2 == 9)
+	{
+		Phase 2;
+	}
+	RESULT=false;
+}
+}
+
+Phase 2
+{
+
+player1.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>);
+player2.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>);
+
+player1.pieces.all.Rule(Tile t)
+{
+	if(player1.pieces.count == 3)
+	{
+		if((t.pieces.count==0))
+		{
+			RESULT=true;
+		}
+	}	
+	else if((posX % 2 == 0 AND |t.posY-posY| == 1 AND posX == t.posX) 
+		OR (posY == t.posY AND (|t.posX-posX| == 1 OR |t.posX-posX| == 7)))
+	{
+		if(t.pieces.count == 0)
+		{
+			RESULT=true;
+		}
+	}
+	if(t.posX % 2 == 1 AND
+		(((t.posX+1, t.posY).pieces[0].player==player1 AND (t.posX+2, t.posY).pieces[0].player==player1)
+		OR ((t.posX-1, t.posY).pieces[0].player==player1 AND (t.posX-2, t.posY).pieces[0].player==player1)))
+	{
+		player1.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>, <RemovePiece(INPUT.Click(player2.pieces.any))>);
+	}
+
+	if(t.posX % 2 == 0 AND
+		(((t.posX, t.posY+1).pieces[0].player==player1 AND (t.posX, t.posY-1).pieces[0].player==player1)
+		OR ((t.posX, t.posY+1).pieces[0].player==player1 AND (t.posX, t.posY+2).pieces[0].player==player1)
+		OR ((t.posX, t.posY-1).pieces[0].player==player1 AND (t.posX, t.posY-2).pieces[0].player==player1)
+		OR ((t.posX-1, t.posY).pieces[0].player==player1 AND (t.posX+1, t.posY).pieces[0].player==player1)))
+	{
+		player1.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>, <RemovePiece(INPUT.Click(player1.pieces.any))>);
+	}
+}
+
+player2.pieces.all.Rule(Tile t)
+{
+	if(player2.pieces.count == 3)
+	{
+		if((t.pieces.count==0))
+		{
+			RESULT=true;
+		}
+	}	
+	else if((posX % 2 == 0 AND |t.posY-posY| == 1 AND posX == t.posX) 
+		OR (posY == t.posY AND (|t.posX-posX| == 1 OR |t.posX-posX| == 7)))
+	{
+		if(t.pieces.count == 0)
+		{
+			RESULT=true;
+		}
+	}
+	if(t.posX % 2 == 1 AND
+		(((t.posX+1, t.posY).pieces[0].player==player2 AND (t.posX+2, t.posY).pieces[0].player==player2)
+		OR ((t.posX-1, t.posY).pieces[0].player==player2 AND (t.posX-2, t.posY).pieces[0].player==player2)))
+	{
+		player2.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>, <RemovePiece(INPUT.Click(player1.pieces.any))>);
+	}
+
+	if(t.posX % 2 == 0 AND
+		(((t.posX, t.posY+1).pieces[0].player==player2 AND (t.posX, t.posY-1).pieces[0].player==player2)
+		OR ((t.posX, t.posY+1).pieces[0].player==player2 AND (t.posX, t.posY+2).pieces[0].player==player2)
+		OR ((t.posX, t.posY-1).pieces[0].player==player2 AND (t.posX, t.posY-2).pieces[0].player==player2)
+		OR ((t.posX-1, t.posY).pieces[0].player==player2 AND (t.posX+1, t.posY).pieces[0].player==player2)))
+	{
+		player2.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>, <RemovePiece(INPUT.Click(player1.pieces.any))>);
+	}
+}
+
+FUNC.RemovePiece(Piece p)
+{
+	if(p.player.pieces.count > 3 AND p.posX % 2 == 1 AND
+		(((p.posX+1, p.posY).pieces[0].player==p.player AND (p.posX+2, p.posY).pieces[0].player==p.player)
+		OR ((p.posX-1, p.posY).pieces[0].player==p.player AND (p.posX-2, p.posY).pieces[0].player==p.player)))
+	{
+		cancel;
+	}
+	else if(p.player.pieces.count > 3 AND p.posX % 2 == 0 AND
+		(((p.posX, p.posY+1).pieces[0].player==p.player AND (p.posX, p.posY-1).pieces[0].player==p.player)
+		OR ((p.posX, p.posY+1).pieces[0].player==p.player AND (p.posX, p.posY+2).pieces[0].player==p.player)
+		OR ((p.posX, p.posY-1).pieces[0].player==p.player AND (p.posX, p.posY-2).pieces[0].player==p.player)
+		OR ((p.posX-1, p.posY).pieces[0].player==p.player AND (p.posX+1, p.posY).pieces[0].player==p.player)))
+	{
+		cancel;
+	}
+	else
+	{
+		Remove(p);
+		player1.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>);
+		player2.Turn(<SelectPiece(piece)>, <SelectTile(tile)>, <piece.Rule(tile)>);
+	}
+	RESULT=true;
+}
+
+player1.WinCondition()
+{
+	RESULT=false;
+	if(player2.pieces.count == 2)
+	{
+		RESULT=true;
+	}
+}
+
+player2.WinCondition()
+{
+	RESULT=false;
+	if(player1.pieces.count == 2)
+	{
+		RESULT=true;
+	}
+}
+} 
