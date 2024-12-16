@@ -1,0 +1,182 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\server\\server.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\parser\\parser.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\parser\\parser.csproj",
+        "projectName": "parser",
+        "projectPath": "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\parser\\parser.csproj",
+        "packagesPath": "C:\\Users\\czobo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\parser\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\czobo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Antlr4.Runtime": {
+              "target": "Package",
+              "version": "[4.6.6, )"
+            },
+            "FuzzySharp": {
+              "target": "Package",
+              "version": "[2.0.2, )"
+            },
+            "OmniSharp.Extensions.LanguageProtocol": {
+              "target": "Package",
+              "version": "[0.19.9, )"
+            },
+            "System.Collections.Immutable": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\server\\server.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\server\\server.csproj",
+        "projectName": "server",
+        "projectPath": "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\server\\server.csproj",
+        "packagesPath": "C:\\Users\\czobo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\server\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\czobo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\parser\\parser.csproj": {
+                "projectPath": "C:\\Users\\czobo\\Documents\\GitHub\\BDG\\BDG_LSPServer\\parser\\parser.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "OmniSharp.Extensions.LanguageServer": {
+              "target": "Package",
+              "version": "[0.19.9, )"
+            },
+            "StreamJsonRpc": {
+              "target": "Package",
+              "version": "[2.17.11, )"
+            },
+            "System.Interactive": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "System.Interactive.Async": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "bogus": {
+              "target": "Package",
+              "version": "[35.5.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

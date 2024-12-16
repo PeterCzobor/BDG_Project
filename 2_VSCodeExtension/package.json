@@ -1,0 +1,112 @@
+{
+  "name": "bdg-server",
+  "displayName": "Board Game Language Extension",
+  "description": "Language intelligence tools for Board Game Scripts",
+  "publisher": "PeterCzobor",
+  "license": "MIT",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "icon": "icons/BDGIcon.png",
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage: bdg"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Board Game Language"
+    },
+    "languages": [
+      {
+        "id": "bdg",
+        "aliases": [
+          "BDG",
+          "bdg"
+        ],
+        "extensions": [
+          ".bdg"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.addPlayer",
+        "title": "Add Player"
+      },
+      {
+        "command": "extension.addPiece",
+        "title": "Add Piece"
+      },
+      {
+        "command": "extension.addDice",
+        "title": "Add Dice"
+      },
+      {
+        "command": "extension.newBdgFile",
+        "title": "New BDG file"
+      }
+    ],
+      "menus": {
+        "editor/context": [
+          {
+            "when": "editorLangId == bdg",
+            "command": "extension.addPlayer",
+            "group": "extension@1"
+          },
+          {
+            "when": "editorLangId == bdg",
+            "command": "extension.addPiece",
+            "group": "extension@2"
+          },
+          {
+            "when": "editorLangId == bdg",
+            "command": "extension.addDice",
+            "group": "extension@3"
+          }
+        ],
+        "explorer/context": [
+          {
+            "when": "explorerResourceIsFolder && extensionActivated",
+            "command": "extension.newBdgFile",
+            "group": "extension@1"
+          }
+        ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PeterCzobor/BDGExtension.git"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.18.63",
+    "@types/vscode": "^1.50.0",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "eslint": "^7.9.0",
+    "glob": "^7.1.6",
+    "mocha": "^8.1.3",
+    "typescript": "^4.0.2",
+    "vscode-test": "^1.4.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^7.0.0-next.12"
+  },
+  "files": [
+    "html"
+  ]
+}
